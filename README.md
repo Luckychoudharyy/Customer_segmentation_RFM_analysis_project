@@ -1,7 +1,9 @@
 # Customer_segmentation_RFM_analysis_project
 ## Project Overview 
+
 Welcome to our Customer Segmentation project focused on RFM (Recency, Frequency, Monetary) Analysis. This project emphasizes the importance of data-driven decision-making for refining business strategies.
 Our main goal is to provide businesses with deeper insights into their customer base, allowing them to optimize marketing strategies and drive sustained growth. We believe that the insights gained from this analysis will be invaluable for informed strategic decision-making.
+
 ---
 
 # `Ask`
