@@ -32,15 +32,13 @@ The challenge is in accurately analyzing and interpreting the data, and converti
 
 **Introduction to the Prepare Phase of Data Analysis**
 
-During the Prepare phase of our data analysis journey, we lay the groundwork for extracting actionable insights from our dataset. Our dataset was meticulously collected from [sales_data_sample](), encompassing [mention any relevant details about the dataset, such as time frame, geographic scope, or specific variables].
+During the Prepare phase of our data analysis journey, we lay the groundwork for extracting actionable insights from our dataset. Our dataset was meticulously collected from [sales_data_sample](https://github.com/Luckychoudharyy/Customer_segmentation_RFM_analysis_project/blob/main/sales_data_sample.csv).
 
-To proceed, we initiated a comprehensive data preparation process, beginning with data cleaning and preprocessing. This involved identifying and addressing any inconsistencies, missing values, or outliers that could potentially distort our analysis. By ensuring data integrity and reliability, we set a solid foundation for accurate and meaningful insights.
+To proceed, we initiated a comprehensive data preparation process, beginning with data cleaning and preprocessing done on spreadsheets a little. This involved identifying and addressing any inconsistencies, missing values, or outliers that could potentially distort our analysis. By ensuring data integrity and reliability, we set a solid foundation for accurate and meaningful insights.
 
-Next, we embarked on data transformation tasks to enhance the usability and interpretability of our dataset. This included feature engineering, where we derived new variables or modified existing ones to capture relevant patterns or relationships. Additionally, we standardized or normalized our data to facilitate comparisons and modeling.
+Next, we embarked on data transformation tasks to enhance the usability and interpretability of our dataset. Throughout the Prepare phase, we maintained a systematic approach, documenting our procedures and decisions to ensure reproducibility and transparency. By adhering to best practices in data preparation, we set the stage for robust analysis and informed decision-making in the subsequent phases of our project.
 
-Throughout the Prepare phase, we maintained a systematic approach, documenting our procedures and decisions to ensure reproducibility and transparency. By adhering to best practices in data preparation, we set the stage for robust analysis and informed decision-making in the subsequent phases of our project.
 
-Join us as we delve deeper into the Prepare phase, where data transformation and refinement pave the way for actionable insights and impactful outcomes.
 
 
 
