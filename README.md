@@ -1,4 +1,8 @@
 # Customer_segmentation_RFM_analysis_project
+
+## Table of contents
+- [Ask](Ask)
+
 ## Project Overview 
 
 Welcome to our Customer Segmentation project focused on RFM (Recency, Frequency, Monetary) Analysis. This project emphasizes the importance of data-driven decision-making for refining business strategies.
@@ -383,7 +387,79 @@ from #rfm
 
 ### From this we can make out thr list of most loyal customers, active customers, potential churners, new customers, the big spenders who are not ordering often and are slipping away and we dont want to loose them.
 
+## Charts Prepared using Tableau
+
+1. Sales and Quantity Distribution
+
+![Screenshot 2024-02-18 162438](https://github.com/Luckychoudharyy/Customer_segmentation_RFM_analysis_project/assets/157785333/a65d7c1e-900c-43fb-b105-39bf225598a6)
+
+2. Sales Distribution by the Product Line and Year
+
+![Screenshot 2024-02-18 161626](https://github.com/Luckychoudharyy/Customer_segmentation_RFM_analysis_project/assets/157785333/93d82807-af74-4f7c-a135-6ec4ae287f34)
+
+3. Revenue and Monthly sales By the Country
+
+![Screenshot 2024-02-18 161602](https://github.com/Luckychoudharyy/Customer_segmentation_RFM_analysis_project/assets/157785333/42674b34-891c-4ed8-96c2-623783561b30)
+
+4. Customer Distribution By the Country
+
+![Screenshot 2024-02-18 161710](https://github.com/Luckychoudharyy/Customer_segmentation_RFM_analysis_project/assets/157785333/b583b033-3f6f-4483-a147-4005dd20c9f6)
+
+---
+# `Share`
+Introduction:
+
+Welcome to the SHARE phase of our data analysis project, where we present the key insights derived from our examination of the 2003 and 2005 dataset. Through our analysis, we've uncovered valuable findings regarding revenue trends, customer behavior, and market dynamics. This phase aims to communicate these insights effectively, facilitating informed decision-making and strategic planning within our organization. 
+
+## Key Findings
+- In 2004 company mede the highest revenue of 4724162.59
+- The Medium Dealsize is the category that sells the most and generates the highest revenue.
+- November is the month for 2003 & 2004 in  which the sales and revenue are the maximum.
+- Classic cars is the highest selling product in the whole productline for both years.
+- Categorization of customers on the basis of the Recency, the freguency and the Monetry value they add to the company.
+- USA is the highest contributer to the revenue.
+
+  
+## For the sharing phase of the analysis we used Tableau for making Dashboards
+
+### 1. Revenue Analysis
+
+![Screenshot 2024-02-18 154553](https://github.com/Luckychoudharyy/Customer_segmentation_RFM_analysis_project/assets/157785333/95589670-2dab-4d8b-b79d-e9a99a8b4959)
 
 
+### 2. Sales Distribution
+
+![Screenshot 2024-02-18 162343](https://github.com/Luckychoudharyy/Customer_segmentation_RFM_analysis_project/assets/157785333/f43d3bcf-00b5-43f5-982a-a86416d82d9c)
+
+
+---
+
+# `Act`
+
+## Recommendations to the Stakeholders
+
+- **Maximize Medium Dealsize Category**: 
+  - Allocate resources towards promoting and expanding the Medium Dealsize category, as it demonstrates the highest sales and revenue.
+  - Consider introducing new products or enhancing existing ones within this category to further drive revenue growth.
+
+- **Strategic Marketing in November**:
+  - Capitalize on the peak sales and revenue observed in November by launching targeted marketing campaigns and promotions during this period.
+  - Leverage seasonal trends to drive increased customer engagement and boost sales.
+
+- **Focus on Classic Cars**:
+  - Continue to prioritize the Classic Cars product line, given its consistent performance as the highest-selling product.
+  - Explore opportunities to innovate within this category to maintain its appeal to customers.
+
+- **Customer Segmentation for Targeted Strategies**:
+  - Utilize the customer segmentation based on Recency, Frequency, and Monetary value to tailor marketing strategies and promotions.
+  - Implement personalized approaches to engage high-value customers and foster long-term loyalty.
+
+- **Enhanced Engagement with USA Market**:
+  - Strengthen efforts in the USA market, the highest revenue contributor, by investing in targeted marketing and customer relationship initiatives.
+  - Explore partnerships or collaborations to further penetrate and expand market presence in the USA.
+
+- **Continuous Monitoring and Adaptation**:
+  - Implement regular monitoring of sales and revenue trends to identify emerging opportunities or challenges.
+  - Remain agile and adaptable to market changes, adjusting strategies as necessary to maintain competitiveness and drive sustained growth.
 
 
