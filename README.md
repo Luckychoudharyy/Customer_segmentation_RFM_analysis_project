@@ -34,15 +34,254 @@ The challenge is in accurately analyzing and interpreting the data, and converti
 
 **Introduction to the Prepare Phase of Data Analysis**
 
-During the Prepare phase of our data analysis journey, we lay the groundwork for extracting actionable insights from our dataset. Our dataset was meticulously collected from [sales_data_sample](https://github.com/Luckychoudharyy/Customer_segmentation_RFM_analysis_project/blob/main/sales_data_sample.csv).
+During the Prepare phase of our data analysis journey, we lay the groundwork for extracting actionable insights from our dataset. Our dataset was meticulously collected from a github repository, it is been uploaded to my repo so you can check it out [sales_data_sample](https://github.com/Luckychoudharyy/Customer_segmentation_RFM_analysis_project/blob/main/sales_data_sample.csv).
 
 To proceed, we initiated a comprehensive data preparation process, beginning with data cleaning and preprocessing done on spreadsheets a little. This involved identifying and addressing any inconsistencies, missing values, or outliers that could potentially distort our analysis. By ensuring data integrity and reliability, we set a solid foundation for accurate and meaningful insights.
 
 Next, we embarked on data transformation tasks to enhance the usability and interpretability of our dataset. Throughout the Prepare phase, we maintained a systematic approach, documenting our procedures and decisions to ensure reproducibility and transparency. By adhering to best practices in data preparation, we set the stage for robust analysis and informed decision-making in the subsequent phases of our project.
 
+we went ahead and opened it in **Excel** to get a sense of the raw data and how it could be of our use.
+
+---
+
+# `Process`
+
+### Tools Used
+
+- Microsoft Excel :- Basic cleaning and trimming
+- Microsoft SQL Server :- 90 % of analysis was done with this including **RFM** techniques, XML paths, filtering & sorting, Data Validation etc.
+- Tableau :- Data visualisation.
+
+### Data Source
+
+As Explained above in the preparation phase. The data for our analysis is primarily collected from a Github repository. The data initially was very dirty.
+it is **SALES DATA** of a global company that sells variour types of products including vehicles.
+
+### Data cleaning using **Excel** and a little bit **MS-SQL Server**
+- Duplicate rows were deleted.
+- Trimming was done to leading and trailing spaces.
+- Unwanted columns were removed.  
+- Standardizing of rows using **UPPER**, **LEN**, **SUBSTRING**, **LOWER** functions in SQL
 
 
+### Data Extraction
+
+From this Data source we applied a lot of SQL Queries to get the data needed 
+
+#### Checking Unique Values
+
+1. Status of orders that exist
+``` SQL
+select distinct status from [dbo].[sales_data_sample]
+```
+Result:
+
+![Screenshot 2024-02-11 162642](https://github.com/Luckychoudharyy/Customer_segmentation_RFM_analysis_project/assets/157785333/7c284b31-e1e7-47e0-bc82-266fee7c32b6)
+
+2. Years for which Data is available
+``` SQL
+select distinct year_id from [dbo].[sales_data_sample]
+```
+Result:
+
+![Screenshot 2024-02-11 164341](https://github.com/Luckychoudharyy/Customer_segmentation_RFM_analysis_project/assets/157785333/dd3a379b-bd76-4707-b4d2-20d2a9c999a2)
+
+3. Products that the company sells
+``` SQL
+select distinct PRODUCTLINE from [dbo].[sales_data_sample]
+```
+Result:
+
+![Screenshot 2024-02-11 164408](https://github.com/Luckychoudharyy/Customer_segmentation_RFM_analysis_project/assets/157785333/5f9983e8-0df0-489c-ac81-68ee19ce2ea6)
+
+4. Countries in which business runs
+``` SQL
+select distinct COUNTRY from [dbo].[sales_data_sample]
+```
+Result: 
+
+![Screenshot 2024-02-11 164508](https://github.com/Luckychoudharyy/Customer_segmentation_RFM_analysis_project/assets/157785333/293f5710-7368-48f2-ae6d-b47238bfea6b)
+
+5. Dealsizes
+```SQL
+select distinct DEALSIZE from [dbo].[sales_data_sample]
+```
+Result:
+
+![Screenshot 2024-02-11 164609](https://github.com/Luckychoudharyy/Customer_segmentation_RFM_analysis_project/assets/157785333/134b41bc-63a3-4370-927d-17008e455864)
+
+6. Territories
+```SQL
+select distinct TERRITORY from [dbo].[sales_data_sample]
+```
+Result:
+
+![Screenshot 2024-02-11 164634](https://github.com/Luckychoudharyy/Customer_segmentation_RFM_analysis_project/assets/157785333/a0cdaaa0-dac9-4c06-ad95-c375d92d3f6e)
+
+---
+
+# `Analyse`
+
+### 1. Revenue by Product Line
+``` SQL
+select PRODUCTLINE, Sum(sales) as Revenue
+from [dbo].[sales_data_sample] 
+group by PRODUCTLINE
+order by 2 desc;
+```
+Result:
+
+![Screenshot 2024-02-11 165334](https://github.com/Luckychoudharyy/Customer_segmentation_RFM_analysis_project/assets/157785333/41527bbb-8102-462c-a5ff-4840532b7e23)
+
+### 2. Using Aggregate Functions Revenue of **Sales by Year**
+```SQL
+select YEAR_ID, Sum(sales) as Revenue
+from [dbo].[sales_data_sample] 
+group by YEAR_ID
+order by 2 desc;
+```
+Result:
+
+![Screenshot 2024-02-11 165606](https://github.com/Luckychoudharyy/Customer_segmentation_RFM_analysis_project/assets/157785333/cc3996be-d0f9-4674-8576-8995facd31ec)
+
+### A. Since the revenue was relatively low in 2005 so we went ahead and checked further whether they operated for the full year or not in 2005.
+
+```SQL
+select distinct MONTH_ID from [dbo].[sales_data_sample]
+where YEAR_ID = 2005;
+```
+Ressult:
+
+![Screenshot 2024-02-11 165853](https://github.com/Luckychoudharyy/Customer_segmentation_RFM_analysis_project/assets/157785333/06a6405e-2341-4149-8f10-3850fce6d9e6)
 
 
+### we found that they operated for only 5 months in 2005, hence the low revenue.
+
+### B. Checking for the months of operation in the year 2003 and 2004
+``` SQL
+select distinct MONTH_ID from [dbo].[sales_data_sample]
+where YEAR_ID = 2003 ---change the year to 2004 to get the result
+order by MONTH_ID
+```
+Result:
+
+![Screenshot 2024-02-11 170056](https://github.com/Luckychoudharyy/Customer_segmentation_RFM_analysis_project/assets/157785333/ded78261-29ea-4f18-8feb-978967388ddf)
+
+### Result shows that they were in operation for the whole year, in the year 2003 and 2004, hence relatively greater revenue.
+
+### 3. Revenue By the DealSize
+``` SQL
+select DEALSIZE, Sum(sales) as Revenue
+from [dbo].[sales_data_sample] 
+group by DEALSIZE
+order by 2 desc;
+```
+Result: 
+
+![Screenshot 2024-02-11 170915](https://github.com/Luckychoudharyy/Customer_segmentation_RFM_analysis_project/assets/157785333/109e1bd6-e210-4920-a106-0035a3b6f70b)
+
+### 4. Revenue and No. of Sales By Months in a particular year
+```SQL
+SELECT 
+    CASE MONTH_ID
+        WHEN 1 THEN 'January'
+        WHEN 2 THEN 'February'
+        WHEN 3 THEN 'March'
+        WHEN 4 THEN 'April'
+        WHEN 5 THEN 'May'
+        WHEN 6 THEN 'June'
+        WHEN 7 THEN 'July'
+        WHEN 8 THEN 'August'
+        WHEN 9 THEN 'September'
+        WHEN 10 THEN 'October'
+        WHEN 11 THEN 'November'
+        WHEN 12 THEN 'December'
+    END AS Month_Name,
+    SUM(sales) AS Revenue,
+    COUNT(ORDERNUMBER) AS Frequency
+FROM [dbo].[sales_data_sample]
+WHERE YEAR_ID = 2003 -- you can change this to see for other years
+GROUP BY MONTH_ID
+ORDER BY 2 DESC;
+```
+
+Result:
+
+![Screenshot 2024-02-11 175055](https://github.com/Luckychoudharyy/Customer_segmentation_RFM_analysis_project/assets/157785333/c9f97a71-3924-4e4f-8475-43fc75a4f382)
+
+### We ran the query for both the years 2003 and 2004 and found out that **November** was the best month and generated the highest revenue in both the years.
+
+### 5. Best selling product for 2003 and 2004
+```SQL
+select 
+
+ CASE MONTH_ID
+        WHEN 1 THEN 'January'
+        WHEN 2 THEN 'February'
+        WHEN 3 THEN 'March'
+        WHEN 4 THEN 'April'
+        WHEN 5 THEN 'May'
+        WHEN 6 THEN 'June'
+        WHEN 7 THEN 'July'
+        WHEN 8 THEN 'August'
+        WHEN 9 THEN 'September'
+        WHEN 10 THEN 'October'
+        WHEN 11 THEN 'November'
+        WHEN 12 THEN 'December'
+    END AS Month_Name,
+ PRODUCTLINE, SUM(sales) as Revenue, Count (ORDERNUMBER) AS Frequency
+from [dbo].[sales_data_sample]
+where YEAR_ID = 2003 and MONTH_ID = 11 --- we can change thiis to see for the rest of the years
+group by MONTH_ID, PRODUCTLINE      
+order by 3 desc;
+--- we had to add the PRODUCTLINE in the groupby as it is not a part of the aggregate function.
+
+```
+Result: 
+
+![Screenshot 2024-02-11 184536](https://github.com/Luckychoudharyy/Customer_segmentation_RFM_analysis_project/assets/157785333/6eb9c6a7-6a3a-46d4-a099-42307ab6e78e)
+
+## RFM Analysis 
+
+RFM analysis is a powerful technique used in customer segmentation to categorize customers based on their transactional behavior. It involves analyzing three key metrics:
+
+1. Recency (R): How recently a customer has made a purchase.
+2. Frequency (F): How often a customer makes purchases.
+3. Monetary Value (M): How much money a customer spends on purchases.
+
+
+### In order to use the RFM technique we made a table that has Recency (How recent the customer had last purchaesd?). we created a table which had last order date in the daabase along the last order date of the customer
+
+### we used 
+```SQL
+[max(ORDERDATE) AS last_order_date]
+```
+and 
+``` SQL
+select max(ORDERDATE) from [dbo].[sales_data_sample]
+```
+as the ultimate last date the company had an order.
+
+we went ahead and used the DATEIFF functun to find the Recency of the customer
+``` SQL
+select 
+CUSTOMERNAME,
+sum(sales) as Total_Monetary_value,
+avg(sales) as Average_Monetary_value,
+COUNT(ORDERNUMBER) as Frequency,
+max(ORDERDATE) AS last_order_date,
+(select max(ORDERDATE)  from [dbo].[sales_data_sample]) as max_order_date,
+DATEDIFF(DD, max(ORDERDATE), (select max(ORDERDATE)  from [dbo].[sales_data_sample])) as Recency
+from [dbo].[sales_data_sample]
+group by CUSTOMERNAME
+```
+![Screenshot 2024-02-11 201044](https://github.com/Luckychoudharyy/Customer_segmentation_RFM_analysis_project/assets/157785333/2e3fb515-a1c6-43e9-be28-1d9c78b8984b)
+
+
+we got the Recency
+
+--- we dont stop here we go ahead and build on this code to segment our customers
+--- we use NTILE function in the sql to segment our data into tiles or buckets of equal values
+--- we design it in such a way that a good table #rfm  from which we can query
 
 
