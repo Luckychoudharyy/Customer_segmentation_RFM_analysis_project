@@ -1,7 +1,7 @@
 # Customer_segmentation_RFM_analysis_project
 
 ## Table of contents
-- [Ask](Ask)
+- [Ask](#Ask)
 
 ## Project Overview 
 
