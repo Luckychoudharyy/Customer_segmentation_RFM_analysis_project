@@ -49,7 +49,7 @@ we went ahead and opened it in **Excel** to get a sense of the raw data and how 
 ### Tools Used
 
 - Microsoft Excel :- Basic cleaning and trimming
-- Microsoft SQL Server :- 90 % of analysis was done with this including **RFM** techniques, XML paths, filtering & sorting, Data Validation etc.
+- Microsoft SQL Server :- 90 % of analysis was done with this including **RFM** techniques, filtering & sorting, Data Validation etc.
 - Tableau :- Data visualisation.
 
 ### Data Source
@@ -241,7 +241,32 @@ Result:
 
 ![Screenshot 2024-02-11 184536](https://github.com/Luckychoudharyy/Customer_segmentation_RFM_analysis_project/assets/157785333/6eb9c6a7-6a3a-46d4-a099-42307ab6e78e)
 
-## RFM Analysis 
+### 6. Highest sales in a Specific Country
+``` SQL
+select city, sum (sales) Revenue
+from [dbo].[sales_data_sample]
+where country = 'UK' --- we can change the country as per our requirement
+group by city
+order by 2 desc;
+```
+Result:
+
+![Screenshot 2024-02-18 153214](https://github.com/Luckychoudharyy/Customer_segmentation_RFM_analysis_project/assets/157785333/103256b5-dd58-4642-b5c1-a17882d1c9f4)
+
+### 7. Best product in a specific country
+``` SQL
+select country, YEAR_ID, PRODUCTLINE, sum(sales) Revenue
+from [dbo].[sales_data_sample]
+where country = 'USA'
+group by  country, YEAR_ID, PRODUCTLINE
+order by 4 desc
+```
+Result:
+
+![Screenshot 2024-02-18 153433](https://github.com/Luckychoudharyy/Customer_segmentation_RFM_analysis_project/assets/157785333/2e115238-79ff-48c0-bc02-cf2f4469b60e)
+
+
+# RFM Analysis 
 
 RFM analysis is a powerful technique used in customer segmentation to categorize customers based on their transactional behavior. It involves analyzing three key metrics:
 
@@ -277,11 +302,88 @@ group by CUSTOMERNAME
 ```
 ![Screenshot 2024-02-11 201044](https://github.com/Luckychoudharyy/Customer_segmentation_RFM_analysis_project/assets/157785333/2e3fb515-a1c6-43e9-be28-1d9c78b8984b)
 
+These are a few out of a long list.
 
-we got the Recency
+### We Got the Recency and these numbers indicate the days out of 365.
 
---- we dont stop here we go ahead and build on this code to segment our customers
---- we use NTILE function in the sql to segment our data into tiles or buckets of equal values
---- we design it in such a way that a good table #rfm  from which we can query
+## The smaller the number the more recent the customer has purchased a product from the company and is termed as a **`Recent customer`**.
+
+# Customer Segmentation
+
+### we dont stop here we go ahead and build on this code to segment our customers. we use NTILE function in the SQL to segment our data into tiles or buckets of equal values.
+```SQL
+select r.*,
+	NTILE(4) over (order by Recency desc) as rfm_recency,
+	NTILE(4) over (order by Frequency) as rfm_frequency,
+	NTILE(4) over (order by Total_Monetary_value) as rfm_monetary
+from rfm as r
+```
+Result: 
+
+![Screenshot 2024-02-18 150128](https://github.com/Luckychoudharyy/Customer_segmentation_RFM_analysis_project/assets/157785333/24a9b8f6-9b72-4a67-8e46-6d428ee0c25e)
+
+### After using CONCAT function on R,F,M as string values so that we get a column where the values are stacked as (111),(123) etc.
+
+### This is our second last perfected query for customer segmentation
+``` SQL
+DROP TABLE IF EXISTS #rfm
+
+; with rfm as 
+(select 
+	CUSTOMERNAME,
+	sum(sales) as Total_Monetary_value,
+	avg(sales) as Average_Monetary_value,
+	COUNT(ORDERNUMBER) as Frequency,
+	max(ORDERDATE) AS last_order_date,
+	(select max(ORDERDATE)  from [dbo].[sales_data_sample]) as max_order_date,
+	DATEDIFF(DD, max(ORDERDATE), (select max(ORDERDATE)  from [dbo].[sales_data_sample] )) as Recency
+from [dbo].[sales_data_sample]
+group by CUSTOMERNAME
+),
+rfm_calc as
+(
+	select r.*,
+	NTILE(4) over (order by Recency desc) as rfm_recency,
+	NTILE(4) over (order by Frequency) as rfm_frequency,
+	NTILE(4) over (order by Total_Monetary_value) as rfm_monetary
+	from rfm as r
+)
+select
+	c.*, rfm_recency+rfm_frequency+rfm_monetary as rfm_cell,
+	CAST(rfm_recency as varchar) + CAST (rfm_frequency as varchar) + CAST (rfm_monetary as varchar) as rfm_cell_string
+	into #rfm
+	from rfm_calc c
+
+select * from #rfm
+```
+
+### This query returns the following Data :
+
+![Screenshot 2024-02-18 151042](https://github.com/Luckychoudharyy/Customer_segmentation_RFM_analysis_project/assets/157785333/2fb42e23-2bff-47e1-93d4-d6181a46512a)
+
+
+### Defining the variables in using CASE function to finally segment our customers
+```SQL
+select  
+ CUSTOMERNAME , rfm_recency, rfm_frequency, rfm_monetary,
+	case 
+		
+		when rfm_cell_string in (111, 112 , 121, 122, 123, 132,221, 211, 212, 114, 141) then 'lost_customers'  --lost customers
+		when rfm_cell_string in (133, 134, 143,234, 244, 334, 343, 344, 144) then 'slipping away, cannot lose' -- (Big spenders who haven’t purchased lately) slipping away
+		when rfm_cell_string in (311, 411, 331, 412, 421) then 'new_customers'
+		when rfm_cell_string in (222, 232, 223, 233, 322, 423) then 'potential_churners'
+		when rfm_cell_string in (323, 333,321, 422, 332, 432) then 'active_customer' --(Customers who buy often & recently, but at low price points)
+		when rfm_cell_string in (433, 434, 443, 444) then 'loyal_customers'
+	end rfm_segment
+from #rfm
+```
+### Final Result:
+
+![Screenshot 2024-02-18 152034](https://github.com/Luckychoudharyy/Customer_segmentation_RFM_analysis_project/assets/157785333/e6c51482-ded7-4148-bd60-6ad1066f1d72)
+
+### From this we can make out thr list of most loyal customers, active customers, potential churners, new customers, the big spenders who are not ordering often and are slipping away and we dont want to loose them.
+
+
+
 
 
