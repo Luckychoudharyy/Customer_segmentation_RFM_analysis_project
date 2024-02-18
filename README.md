@@ -7,6 +7,8 @@
 - [Analyse](#Analyse)
 - [RFM Analysis](#RFM-Analysis)
 - [Customer Segmentation](#Customer-Segmentation)
+- [Share](#Share)
+- [Act](#Act)
 
 ## Project Overview 
 
