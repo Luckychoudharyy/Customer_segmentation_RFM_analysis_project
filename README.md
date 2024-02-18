@@ -1,7 +1,12 @@
 # Customer_segmentation_RFM_analysis_project
 
-## Table of contents
+## Table of contents 
 - [Ask](#Ask)
+- [Prepare](#Prepare)
+- [Process](#Process)
+- [Analyse](#Analyse)
+- [RFM Analysis](#RFM-Analysis)
+- [Customer Segmentation](#Customer-Segmentation)
 
 ## Project Overview 
 
